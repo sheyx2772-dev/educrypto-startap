@@ -1,0 +1,141 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@600;700;800&display=swap");
+
+.ks-game {
+  --ks-bg: #06080d;
+  --ks-gold: #f4b942;
+  --ks-green: #00d68f;
+  --ks-pixel: "Press Start 2P", monospace;
+  --ks-ui: "Rajdhani", sans-serif;
+  font-family: var(--ks-ui);
+  background: var(--ks-bg);
+  color: #e8eaed;
+  position: relative;
+}
+
+.ks-pixel-title {
+  font-family: var(--ks-pixel);
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--ks-gold);
+  text-shadow: 2px 2px 0 #1a1408;
+}
+
+.ks-panel {
+  background: rgba(8, 12, 18, 0.92);
+  border: 2px solid rgba(244, 185, 66, 0.25);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+}
+
+.ks-btn-gold {
+  background: linear-gradient(180deg, #f4b942 0%, #c99a2e 100%);
+  color: #1a1408;
+  font-family: var(--ks-ui);
+  font-weight: 800;
+  border: 2px solid #8b6914;
+  box-shadow: 0 4px 0 #6b5010;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.ks-btn-gold:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #6b5010;
+}
+
+.ks-avatar-card {
+  background: rgba(15, 20, 30, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.2s;
+}
+
+.ks-avatar-card.selected {
+  border-color: var(--ks-gold);
+  box-shadow: 0 0 20px rgba(244, 185, 66, 0.35);
+}
+
+.ks-hud-bit {
+  font-variant-numeric: tabular-nums;
+  color: var(--ks-gold);
+  text-shadow: 0 0 8px rgba(244, 185, 66, 0.5);
+}
+
+.ks-minimap {
+  image-rendering: pixelated;
+  background: #0a1018;
+  border: 2px solid rgba(244, 185, 66, 0.3);
+}
+
+.ks-chat-input {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-family: var(--ks-ui);
+}
+
+.ks-enter-prompt {
+  animation: ks-bounce 1s ease-in-out infinite;
+  background: linear-gradient(180deg, rgba(0, 214, 143, 0.2) 0%, rgba(0, 0, 0, 0.8) 100%);
+  border: 2px solid var(--ks-green);
+}
+
+@keyframes ks-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.ks-phaser-wrap {
+  touch-action: none;
+  pointer-events: auto;
+}
+
+.ks-phaser-wrap canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 0 0 12px 12px;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.ks-drag-hint {
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(244, 185, 66, 0.2);
+  animation: ks-drag-pulse 2s ease-in-out infinite;
+}
+
+@keyframes ks-drag-pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+.ks-avatar-card img {
+  filter: drop-shadow(0 4px 12px rgba(244, 185, 66, 0.25));
+}
+
+.ks-interior {
+  background: radial-gradient(ellipse at 50% 0%, rgba(244, 185, 66, 0.08), transparent 60%), #06080d;
+}
+
+.ks-locked-overlay {
+  background: rgba(0, 0, 0, 0.85);
+  border: 2px solid #e24b4a;
+}
+
+.ks-mine-rack {
+  background: linear-gradient(180deg, #1a2a1a 0%, #0a150a 100%);
+  border: 2px solid #00ff88;
+  box-shadow: 0 0 24px rgba(0, 255, 136, 0.15);
+}
+
+.ks-hash-display {
+  font-family: ui-monospace, monospace;
+  font-size: 10px;
+  color: #00ff88;
+  background: #000;
+  border: 1px solid #00ff8844;
+}
+
+.ks-city-progress {
+  background: rgba(244, 185, 66, 0.1);
+  border: 1px solid rgba(244, 185, 66, 0.2);
+}

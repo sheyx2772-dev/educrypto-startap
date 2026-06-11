@@ -1,0 +1,799 @@
+.kso-root {
+  --kso-bg: #060a12;
+  --kso-panel: #0d1525;
+  --kso-card: #111b2e;
+  --kso-border: rgba(99, 102, 241, 0.25);
+  --kso-indigo: #6366f1;
+  --kso-cyan: #22d3ee;
+  --kso-green: #10b981;
+  --kso-red: #ef4444;
+  --kso-gold: #ffb800;
+  --kso-gold-dark: #e5a500;
+  --kso-gold-light: #ffc933;
+  --kso-calc-body: #ffb800;
+  --kso-calc-border: #e5a500;
+  --kso-text: #e8edf7;
+  --kso-muted: #7b8ba8;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: var(--kso-text);
+  background: linear-gradient(165deg, #04060d 0%, #0a1020 45%, #060a14 100%);
+  min-height: 560px;
+}
+
+.kso-hud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: linear-gradient(90deg, #0c1428, #121e38);
+  border-bottom: 1px solid var(--kso-border);
+}
+
+.kso-hud-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 5px 10px;
+}
+
+.kso-rates-ticker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.kso-rate-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.kso-rate-chip.up { color: var(--kso-green); }
+.kso-rate-chip.down { color: var(--kso-red); }
+
+.kso-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 12px 14px 16px;
+}
+
+.kso-center-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.kso-stall-section {
+  width: 100%;
+  margin-top: 4px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.kso-stall {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+  gap: 10px;
+}
+
+.kso-stall-item {
+  position: relative;
+  background: var(--kso-card);
+  border: 2px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 12px 10px;
+  cursor: grab;
+  transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+  touch-action: none;
+}
+
+.kso-stall-item:hover {
+  border-color: var(--kso-indigo);
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+}
+
+.kso-stall-item.selected {
+  border-color: var(--kso-cyan);
+  box-shadow: 0 0 24px rgba(34, 211, 238, 0.25);
+}
+
+.kso-stall-item.bought {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(0.6);
+}
+
+.kso-stall-img-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 72px;
+  margin-bottom: 6px;
+  overflow: hidden;
+}
+
+.kso-stall-img {
+  width: auto;
+  height: 68px;
+  max-width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
+  pointer-events: none;
+}
+
+.kso-stall-name {
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.kso-stall-price {
+  font-size: 10px;
+  color: var(--kso-gold);
+  font-weight: 800;
+  margin-top: 4px;
+}
+
+.kso-stall-pay {
+  font-size: 9px;
+  color: var(--kso-muted);
+  margin-top: 2px;
+}
+
+.kso-payment-center {
+  position: relative;
+  width: 100%;
+  background: radial-gradient(circle at 50% 30%, rgba(255, 184, 0, 0.12), transparent 65%),
+    var(--kso-panel);
+  border: 2px dashed rgba(255, 184, 0, 0.45);
+  border-radius: 20px;
+  padding: 18px 16px;
+  text-align: center;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.kso-payment-center.active {
+  border-color: var(--kso-gold);
+  border-style: solid;
+  box-shadow: 0 0 30px rgba(255, 184, 0, 0.25);
+}
+
+.kso-payment-logo-wrap {
+  margin-bottom: 8px;
+}
+
+.kso-payment-logo {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(255, 184, 0, 0.4));
+}
+
+.kso-payment-title {
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--kso-gold);
+}
+
+.kso-payment-product {
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--kso-gold-light);
+}
+
+.kso-payment-price {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--kso-gold);
+  margin-top: 4px;
+}
+
+.kso-payment-hint {
+  font-size: 10px;
+  color: var(--kso-gold-dark);
+  margin-top: 4px;
+  opacity: 0.85;
+}
+
+.kso-payment-desc {
+  font-size: 10px;
+  color: var(--kso-gold);
+  margin-top: 8px;
+  line-height: 1.5;
+  padding: 0 8px;
+  opacity: 0.9;
+}
+
+.kso-payment-center.shake {
+  animation: kso-shake 0.5s ease;
+}
+
+@keyframes kso-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+.kso-btn-gold {
+  background: linear-gradient(135deg, var(--kso-gold), var(--kso-gold-dark));
+  color: #1a1000;
+  box-shadow: 0 4px 16px rgba(255, 184, 0, 0.35);
+  font-weight: 900;
+}
+
+.kso-inventory {
+  width: 100%;
+  background: var(--kso-panel);
+  border: 1px solid var(--kso-border);
+  border-radius: 14px;
+  padding: 10px 12px;
+}
+
+.kso-inv-thumb {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.kso-inventory-title {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--kso-muted);
+  margin-bottom: 8px;
+}
+
+.kso-inv-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.kso-olaa {
+  margin: 0 14px 12px;
+  padding: 10px 14px;
+  background: rgba(34, 211, 238, 0.08);
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  border-radius: 12px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--kso-cyan);
+}
+
+.kso-olaa.warn {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.25);
+  color: #fca5a5;
+}
+
+.kso-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 16px;
+}
+
+.kso-modal {
+  width: 100%;
+  max-width: 400px;
+  background: linear-gradient(160deg, #121e36, #0c1428);
+  border: 2px solid var(--kso-indigo);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.kso-modal-calc {
+  max-width: 340px;
+  padding: 16px;
+  background: #0a0a0a;
+  border: 3px solid var(--kso-gold-dark);
+}
+
+.kso-modal-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.kso-modal-logo {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.kso-modal-brand {
+  font-size: 9px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--kso-gold);
+}
+
+.kso-modal-title {
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--kso-gold-light);
+}
+
+.kso-modal-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--kso-gold);
+  margin-bottom: 12px;
+  padding: 0 2px;
+}
+
+.kso-modal-rate {
+  width: 100%;
+  opacity: 0.8;
+}
+
+/* ─── Kalkulyator (mobil uchun tugmali) ─── */
+.kso-calc {
+  background: var(--kso-calc-body);
+  border: 3px solid var(--kso-calc-border);
+  border-radius: 18px;
+  padding: 12px;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.15), 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.kso-calc-display {
+  position: relative;
+  background: #000;
+  border-radius: 10px;
+  padding: 14px 12px;
+  margin-bottom: 10px;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.kso-calc-display-shine {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(135deg, transparent 40%, rgba(255, 255, 255, 0.06) 100%);
+  pointer-events: none;
+}
+
+.kso-calc-display-val {
+  font-size: 26px;
+  font-weight: 900;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  word-break: break-all;
+  text-align: right;
+  flex: 1;
+}
+
+.kso-calc-display-sym {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--kso-gold);
+  flex-shrink: 0;
+}
+
+.kso-calc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.kso-calc-key {
+  aspect-ratio: 1;
+  min-height: 52px;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 22px;
+  font-weight: 900;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.08s, background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.kso-calc-key:active {
+  transform: scale(0.94);
+  background: #1a1a1a;
+}
+
+.kso-calc-key-fn {
+  font-size: 16px;
+  color: var(--kso-gold);
+}
+
+.kso-calc-key-wide {
+  grid-column: span 4;
+  aspect-ratio: auto;
+  min-height: 52px;
+}
+
+.kso-calc-submit-btn {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 8px;
+}
+
+.kso-calc-close {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid rgba(255, 184, 0, 0.3);
+  border-radius: 10px;
+  color: var(--kso-gold);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.kso-btn {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 900;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s, opacity 0.2s;
+}
+
+.kso-btn:active { transform: scale(0.98); }
+.kso-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.kso-btn-primary {
+  background: linear-gradient(135deg, var(--kso-indigo), #4f46e5);
+  color: white;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);
+}
+
+.kso-btn-success {
+  background: linear-gradient(135deg, var(--kso-green), #059669);
+  color: white;
+}
+
+.kso-btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--kso-muted);
+  margin-top: 8px;
+}
+
+.kso-tx-ok {
+  color: var(--kso-green);
+  font-size: 11px;
+  font-weight: 800;
+  margin-top: 8px;
+}
+
+.kso-tx-fail {
+  color: var(--kso-red);
+  font-size: 11px;
+  font-weight: 800;
+  margin-top: 8px;
+}
+
+.kso-won {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px;
+  min-height: 480px;
+}
+
+/* ─── Rastani ochish — savdo reklama paneli ─── */
+.kso-intro-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 28px 20px 36px;
+  min-height: 520px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 20%, rgba(88, 28, 135, 0.55), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(255, 184, 0, 0.08), transparent),
+    linear-gradient(165deg, #0f0520 0%, #1a0a35 40%, #12082a 100%);
+}
+
+.kso-intro-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.kso-intro-glow-1 {
+  width: 320px;
+  height: 320px;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.35), transparent 70%);
+}
+
+.kso-intro-glow-2 {
+  width: 200px;
+  height: 200px;
+  bottom: 80px;
+  right: -40px;
+  background: radial-gradient(circle, rgba(255, 184, 0, 0.15), transparent 70%);
+}
+
+.kso-intro-badge {
+  position: relative;
+  z-index: 1;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--kso-gold);
+  background: rgba(255, 184, 0, 0.1);
+  border: 1px solid rgba(255, 184, 0, 0.35);
+  border-radius: 20px;
+  padding: 5px 14px;
+  margin-bottom: 16px;
+  box-shadow: 0 0 20px rgba(255, 184, 0, 0.15);
+}
+
+.kso-intro-hero-wrap {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 8px;
+}
+
+.kso-intro-hero {
+  width: 200px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 32px rgba(88, 28, 135, 0.6));
+  animation: kso-hero-float 4s ease-in-out infinite;
+}
+
+@keyframes kso-hero-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.kso-intro-headline {
+  position: relative;
+  z-index: 1;
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1.1;
+  margin: 4px 0 8px;
+  letter-spacing: -0.02em;
+}
+
+.kso-intro-head-white {
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(255, 255, 255, 0.15);
+}
+
+.kso-intro-head-gold {
+  background: linear-gradient(180deg, #fff5c0 0%, #ffb800 50%, #e58e00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 8px rgba(255, 184, 0, 0.4));
+}
+
+.kso-intro-tagline {
+  position: relative;
+  z-index: 1;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.45;
+  max-width: 300px;
+  margin-bottom: 18px;
+}
+
+.kso-intro-tag-white { color: rgba(255, 255, 255, 0.92); }
+.kso-intro-tag-gold { color: var(--kso-gold-light); }
+
+.kso-intro-stats {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 184, 0, 0.2);
+  border-radius: 14px;
+  padding: 10px 6px;
+  margin-bottom: 16px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.kso-intro-stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.kso-intro-stat-val {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--kso-gold);
+  line-height: 1;
+}
+
+.kso-intro-stat-lbl {
+  font-size: 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.kso-intro-stat-div {
+  width: 1px;
+  height: 28px;
+  background: rgba(255, 184, 0, 0.2);
+}
+
+.kso-intro-features {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  width: 100%;
+  max-width: 300px;
+  text-align: left;
+}
+
+.kso-intro-features li {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.kso-intro-features li:last-child { border-bottom: none; }
+
+.kso-feat-white { color: #fff; font-weight: 900; }
+.kso-feat-gold { color: var(--kso-gold); font-weight: 900; }
+
+/* Pill tugma — rasmdagi 3D oltin dizayn */
+.kso-intro-cta {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 280px;
+  padding: 0 6px 0 22px;
+  height: 56px;
+  border: 2px solid #c47a00;
+  border-radius: 999px;
+  cursor: pointer;
+  overflow: hidden;
+  background: linear-gradient(180deg, #ffe566 0%, #ffb800 45%, #e58e00 100%);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -3px 0 rgba(180, 90, 0, 0.35),
+    0 6px 24px rgba(255, 140, 0, 0.45),
+    0 2px 0 #9a5c00;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.kso-intro-cta-shine {
+  position: absolute;
+  top: 4px;
+  left: 16px;
+  width: 60px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+.kso-intro-cta-text {
+  font-size: 16px;
+  font-weight: 900;
+  color: #5c3200;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.01em;
+}
+
+.kso-intro-cta-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+  color: #e58e00;
+}
+
+.kso-intro-cta-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.kso-won-title {
+  font-size: 22px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--kso-gold), var(--kso-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.kso-section-label {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--kso-muted);
+  margin-bottom: 10px;
+}

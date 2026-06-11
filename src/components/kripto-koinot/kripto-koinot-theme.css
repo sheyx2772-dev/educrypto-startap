@@ -1,0 +1,300 @@
+/* ── Vertikal layout: tepa HUD → maydon → past HUD ── */
+.kk-game-shell {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #080c18 0%, #050810 100%);
+  height: clamp(520px, 70vh, 740px);
+  min-height: 480px;
+}
+
+.kk-hud-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  flex-shrink: 0;
+  background: rgba(8, 14, 32, 0.98);
+  border-bottom: 1px solid rgba(34, 211, 238, 0.25);
+  flex-wrap: wrap;
+}
+
+.kk-hud-bottom {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 10px;
+  flex-shrink: 0;
+  background: rgba(8, 14, 32, 0.98);
+  border-top: 1px solid rgba(99, 102, 241, 0.25);
+  flex-wrap: wrap;
+}
+
+.kk-arena-column {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  border-left: 2px solid rgba(34, 211, 238, 0.3);
+  border-right: 2px solid rgba(34, 211, 238, 0.3);
+  box-shadow: inset 0 0 60px rgba(6, 182, 212, 0.08);
+}
+
+.kk-arena-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at 46% 50%, #1a3a6e 0%, #0c1830 45%, #060a14 80%);
+  overflow: hidden;
+}
+
+.kk-arena-wrap::before {
+  content: none;
+}
+
+.kk-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: grab;
+  position: relative;
+  z-index: 1;
+}
+
+.kk-canvas:active {
+  cursor: grabbing;
+}
+
+/* ── Tepa statistikalar (ixcham gorizontal) ── */
+.kk-stat {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(12, 22, 48, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.kk-stat-cyan { border-color: rgba(34, 211, 238, 0.4); }
+.kk-stat-emerald { border-color: rgba(52, 211, 153, 0.4); }
+.kk-stat-amber { border-color: rgba(251, 191, 36, 0.4); }
+.kk-stat-timer { border-color: rgba(251, 191, 36, 0.45); }
+.kk-stat-feed { border-color: rgba(248, 113, 113, 0.35); gap: 6px; }
+
+.kk-stat-label {
+  font-size: 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #94a3b8;
+}
+
+.kk-stat-value {
+  font-size: 12px;
+  font-weight: 800;
+  color: #f1f5f9;
+}
+
+.kk-stat-sub {
+  font-size: 9px;
+  font-weight: 700;
+  color: #94a3b8;
+}
+
+.kk-stat-sep {
+  width: 1px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+}
+
+.kk-stat-placed {
+  margin-left: auto;
+  font-size: 9px;
+  font-weight: 800;
+  color: #22d3ee;
+  padding: 3px 8px;
+  background: rgba(34, 211, 238, 0.1);
+  border-radius: 6px;
+}
+
+.kk-feed-svg {
+  width: 56px;
+  height: 18px;
+}
+
+.kk-timer {
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  font-size: 13px;
+  color: #fbbf24;
+  text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+}
+
+.kk-timer.urgent {
+  color: #fb7185;
+  animation: kk-pulse 0.8s ease infinite;
+}
+
+@keyframes kk-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ── Pastki fizika + yo'riqnoma ── */
+.kk-physics-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.kk-physics-inline label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 8px;
+  color: #94a3b8;
+  font-weight: 700;
+}
+
+.kk-physics-inline label span {
+  width: 30px;
+}
+
+.kk-physics-inline input {
+  width: 72px;
+  height: 4px;
+  accent-color: #818cf8;
+}
+
+.kk-hint-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  font-size: 9px;
+  color: #94a3b8;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.kk-hint-main {
+  color: #94a3b8;
+  margin-right: 6px;
+}
+
+.kk-hint-main b {
+  color: #22d3ee;
+}
+
+.kk-hint-bar span b {
+  font-weight: 800;
+}
+
+.kk-feed-line {
+  stroke-linecap: round;
+  fill: none;
+}
+
+@media (max-width: 640px) {
+  .kk-game-shell {
+    height: clamp(460px, 65vh, 600px);
+    min-height: 400px;
+  }
+
+  .kk-hud-top {
+    gap: 4px;
+    padding: 4px 6px;
+  }
+
+  .kk-stat {
+    padding: 2px 6px;
+  }
+
+  .kk-stat-value,
+  .kk-timer {
+    font-size: 11px;
+  }
+
+  .kk-stat-sep,
+  .kk-stat-feed {
+    display: none;
+  }
+
+  .kk-hud-bottom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+  }
+
+  .kk-hint-bar {
+    justify-content: flex-start;
+    font-size: 8px;
+  }
+}
+
+/* ── Modals & intro ── */
+.kk-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 6, 14, 0.88);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+  padding: 1rem;
+}
+
+.kk-modal {
+  max-width: 380px;
+  width: 100%;
+  background: linear-gradient(145deg, #121e38, #0a1020);
+  border: 2px solid rgba(248, 113, 113, 0.55);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  box-shadow: 0 0 50px rgba(248, 113, 113, 0.25);
+}
+
+.kk-intro {
+  min-height: 420px;
+  gap: 1rem;
+}
+
+.kk-btn {
+  padding: 0.65rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 800;
+  font-size: 0.85rem;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.kk-btn-primary {
+  background: linear-gradient(135deg, #06b6d4, #6366f1);
+  color: white;
+  box-shadow: 0 4px 24px rgba(6, 182, 212, 0.45);
+}
+
+.kk-btn-primary:hover {
+  transform: translateY(-1px);
+}
+
+.kk-win-banner {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, #10b981, #06b6d4);
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: white;
+  z-index: 20;
+  white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+}

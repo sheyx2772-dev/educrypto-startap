@@ -1,0 +1,35 @@
+{
+  "name": "educrypto",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "dev:clean": "lsof -ti:3000,3001,3002 2>/dev/null | xargs kill -9 2>/dev/null; rm -rf .next && next dev",
+    "build": "next build",
+    "build:clean": "lsof -ti:3000,3001,3002 2>/dev/null | xargs kill -9 2>/dev/null; rm -rf .next && next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "framer-motion": "^12.16.0",
+    "lucide-react": "^1.17.0",
+    "matter-js": "^0.20.0",
+    "next": "^15.3.3",
+    "phaser": "^3.80.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@tailwindcss/postcss": "^4.1.8",
+    "@types/matter-js": "^0.20.2",
+    "@types/node": "^22.15.29",
+    "@types/react": "^19.1.6",
+    "@types/react-dom": "^19.1.5",
+    "eslint": "^9.28.0",
+    "eslint-config-next": "^15.3.3",
+    "tailwindcss": "^4.1.8",
+    "typescript": "^5.8.3"
+  }
+}

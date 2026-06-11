@@ -1,0 +1,193 @@
+/* ─── O'yin tugmalari — 3D sariq PLAY/START uslubi ─── */
+
+.gplay-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 32px 20px 40px;
+  min-height: 480px;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255, 235, 59, 0.08), transparent),
+    #000;
+  color: #fff;
+}
+
+.gplay-screen-title {
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.2;
+  margin: 12px 0 8px;
+}
+
+.gplay-screen-title .white { color: #fff; }
+.gplay-screen-title .gold {
+  background: linear-gradient(180deg, #fff9c4 0%, #ffeb3b 50%, #fbc02d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gplay-screen-desc {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  max-width: 320px;
+  color: rgba(255, 255, 255, 0.82);
+  margin-bottom: 20px;
+}
+
+.gplay-screen-desc strong,
+.gplay-screen-desc .gold { color: #ffeb3b; }
+
+.gplay-badge {
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #ffeb3b;
+  background: rgba(255, 235, 59, 0.1);
+  border: 1px solid rgba(255, 235, 59, 0.35);
+  border-radius: 20px;
+  padding: 5px 14px;
+  margin-bottom: 14px;
+}
+
+.gplay-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 300px;
+  padding: 15px 28px;
+  border: none;
+  border-radius: 20px;
+  font-size: 17px;
+  font-weight: 900;
+  font-family: "Montserrat", system-ui, sans-serif;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.4), 0 3px 8px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  overflow: hidden;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      transparent,
+      transparent 5px,
+      rgba(0, 0, 0, 0.07) 5px,
+      rgba(0, 0, 0, 0.07) 10px
+    ),
+    linear-gradient(180deg, #ffeb3b 0%, #ffd54f 38%, #fbc02d 100%);
+  box-shadow:
+    inset 0 3px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -5px 0 rgba(180, 120, 0, 0.5),
+    0 0 0 3px #c49000,
+    0 7px 0 #8b6500,
+    0 10px 24px rgba(0, 0, 0, 0.4);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.gplay-btn::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 14px;
+  right: 14px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+.gplay-btn:active:not(:disabled) {
+  transform: translateY(5px);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -3px 0 rgba(180, 120, 0, 0.45),
+    0 0 0 3px #c49000,
+    0 2px 0 #8b6500,
+    0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.gplay-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(0.3);
+}
+
+.gplay-btn-sm {
+  max-width: 100%;
+  padding: 11px 18px;
+  font-size: 12px;
+  border-radius: 14px;
+  letter-spacing: 0.05em;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -3px 0 rgba(180, 120, 0, 0.45),
+    0 0 0 2px #c49000,
+    0 5px 0 #8b6500,
+    0 7px 16px rgba(0, 0, 0, 0.35);
+}
+
+.gplay-btn-sm:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -2px 0 rgba(180, 120, 0, 0.4),
+    0 0 0 2px #c49000,
+    0 2px 0 #8b6500,
+    0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.gplay-btn-danger {
+  background:
+    repeating-linear-gradient(
+      135deg,
+      transparent,
+      transparent 5px,
+      rgba(0, 0, 0, 0.1) 5px,
+      rgba(0, 0, 0, 0.1) 10px
+    ),
+    linear-gradient(180deg, #ff6b6b 0%, #ef4444 45%, #c62828 100%);
+  box-shadow:
+    inset 0 3px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -5px 0 rgba(120, 20, 20, 0.5),
+    0 0 0 3px #8b2020,
+    0 7px 0 #5c1010,
+    0 10px 24px rgba(0, 0, 0, 0.4);
+}
+
+.gplay-btn-danger:active:not(:disabled) {
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -3px 0 rgba(120, 20, 20, 0.45),
+    0 0 0 3px #8b2020,
+    0 2px 0 #5c1010,
+    0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.gplay-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 235, 59, 0.2);
+  border-radius: 14px;
+  padding: 12px 14px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.gplay-card-label {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #ffeb3b;
+  margin-bottom: 8px;
+}

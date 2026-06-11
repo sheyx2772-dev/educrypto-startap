@@ -1,0 +1,87 @@
+import type { StallProduct } from "./types";
+
+const IMG = "/game/kripto-sotib-ol";
+
+export const STALL_PRODUCTS: StallProduct[] = [
+  {
+    id: "telefon",
+    name: "Smartphone",
+    nameUz: "Telefon",
+    description: "Zamonaviy smartfon — kumush rangli premium model",
+    priceUsd: 1099,
+    payWith: "btc",
+    image: `${IMG}/telefon.png`,
+    category: "Elektronika",
+    tip: "Telefon narxi $1,099 — BTC kursiga bo'ling. Katta summada kichik xato ham muhim!",
+  },
+  {
+    id: "kompyuter",
+    name: "MacBook Pro",
+    nameUz: "Kompyuter",
+    description: "Professional noutbuk — ish va o'qish uchun",
+    priceUsd: 2299,
+    payWith: "eth",
+    gasUsd: 5,
+    image: `${IMG}/kompyuter.png`,
+    category: "Elektronika",
+    tip: "ETH tarmog'ida $5 gas qo'shiladi. Jami = (2299 + 5) ÷ ETH kursi",
+  },
+  {
+    id: "mashina",
+    name: "Chevrolet Camaro",
+    nameUz: "Mashina",
+    description: "Sport avtomobil — Chevrolet Camaro SS",
+    priceUsd: 45000,
+    payWith: "btc",
+    image: `${IMG}/mashina.png`,
+    category: "Transport",
+    tip: "Yuqori narx! $45,000 ÷ BTC kursi — aniq hisoblang.",
+  },
+  {
+    id: "uy",
+    name: "Luxury Villa",
+    nameUz: "Uy",
+    description: "Zamonaviy ikki qavatli villa — mashina garaji bilan",
+    priceUsd: 380000,
+    payWith: "btc",
+    image: `${IMG}/uy.png`,
+    category: "Ko'chmas mulk",
+    tip: "Eng qimmat xarid! BTC da katta miqdor — diqqat bilan hisoblang.",
+  },
+  {
+    id: "kiyim",
+    name: "Wireless Earbuds",
+    nameUz: "Kiyim",
+    description: "Sport quloqchin naushnik — kundalik kiyim aksessuari",
+    priceUsd: 249,
+    payWith: "usdt",
+    image: `${IMG}/kiyim.png`,
+    category: "Kiyim",
+    tip: "USDT ≈ $1 — $249 ÷ USDT kursi. Oddiy hisob, lekin kurs barqaror emas!",
+  },
+  {
+    id: "oyoq-kiyim",
+    name: "Sneakers",
+    nameUz: "Oyoq kiyim",
+    description: "Zamonaviy sport krossovkalar — qulay va yengil",
+    priceUsd: 89,
+    payWith: "sol",
+    image: `${IMG}/oyoq-kiyim.png`,
+    category: "Kiyim",
+    tip: "SOL kursi tez o'zgaradi — $89 ÷ joriy SOL kursi",
+  },
+  {
+    id: "ichimlik",
+    name: "Fanta Lemon",
+    nameUz: "Ichimlik",
+    description: "Sovuq limonli gazli ichimlik — 330ml",
+    priceUsd: 1.5,
+    payWith: "usdt",
+    image: `${IMG}/ichimlik.png`,
+    category: "Oziq-ovqat",
+    tip: "Eng arzon mahsulot! $1.50 ÷ USDT — kichik kasrni to'g'ri yozing.",
+  },
+];
+
+export const WIN_PURCHASE_COUNT = 4;
+export const MAX_FAILED_ATTEMPTS = 5;

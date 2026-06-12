@@ -1,25 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ASSET_META, formatUsd, getRate } from "@/lib/kripto-sotib-ol/market";
-import type { MarketRate, StallProduct } from "@/lib/kripto-sotib-ol/types";
+import type { CryptoAsset, MarketRate, StallProduct } from "@/lib/kripto-sotib-ol/types";
 import { CryptoCalculator } from "./CryptoCalculator";
 
 interface Props {
   product: StallProduct;
   rates: MarketRate[];
   lastMessage: string;
-  onSubmit: (amount: number) => void;
+  onSubmit: (amount: number, asset: CryptoAsset) => void;
   onClose: () => void;
 }
 
 export function ConversionModal({ product, rates, lastMessage, onSubmit, onClose }: Props) {
   const [input, setInput] = useState("");
-  const rate = getRate(rates, product.payWith);
-  const sym = ASSET_META[product.payWith].symbol;
+  const [selectedAsset, setSelectedAsset] = useState<CryptoAsset>(product.payWith);
+  const rate = getRate(rates, selectedAsset);
+  const sym = ASSET_META[selectedAsset].symbol;
   const gas = product.gasUsd ?? 0;
+
+  useEffect(() => {
+    setSelectedAsset(product.payWith);
+    setInput("");
+  }, [product.id, product.payWith]);
 
   const appendDigit = (d: string) => {
     if (d === "0" && input === "0") return;
@@ -38,7 +44,12 @@ export function ConversionModal({ product, rates, lastMessage, onSubmit, onClose
   const handleSubmit = () => {
     const val = parseFloat(input);
     if (!Number.isFinite(val) || val <= 0) return;
-    onSubmit(val);
+    onSubmit(val, selectedAsset);
+  };
+
+  const pickAsset = (asset: CryptoAsset) => {
+    setSelectedAsset(asset);
+    setInput("");
   };
 
   const isFail = lastMessage && !lastMessage.includes("muvaffaqiyatli");
@@ -81,6 +92,28 @@ export function ConversionModal({ product, rates, lastMessage, onSubmit, onClose
           <span>{formatUsd(product.priceUsd)}</span>
           {gas > 0 && <span>+ {formatUsd(gas)} gas</span>}
           <span className="kso-modal-rate">1 {sym} = {formatUsd(rate)}</span>
+        </div>
+
+        <div className="flex flex-wrap gap-1.5 mb-3 px-0.5">
+          {rates.map((r) => {
+            const active = r.asset === selectedAsset;
+            return (
+              <button
+                key={r.asset}
+                type="button"
+                className={`kso-rate-chip ${active ? "up" : ""}`}
+                style={
+                  active
+                    ? { borderColor: r.color, boxShadow: `0 0 10px ${r.color}55` }
+                    : undefined
+                }
+                onClick={() => pickAsset(r.asset)}
+              >
+                <span style={{ color: r.color }}>{r.symbol}</span>
+                <span className="text-white">{formatUsd(r.usd)}</span>
+              </button>
+            );
+          })}
         </div>
 
         <CryptoCalculator

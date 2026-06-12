@@ -206,6 +206,37 @@ export const pathContentById: Record<string, PathNodeContent> = {
     },
   },
 
+  p4g: {
+    guide: [
+      {
+        title: "Xazina mukofoti",
+        points: [
+          "Xazina darsini tugatdingiz — tabriklaymiz!",
+          "Sandiqchani bosing va USDT bonus oling.",
+          "Keyingi bosqich: Blokcheyn va demo o'yin.",
+        ],
+      },
+    ],
+    quiz: [
+      {
+        question: "Xazina mukofoti qachon ochiladi?",
+        options: ["Xazina darsidan keyin", "Ro'yxatdan oldin", "Hech qachon", "Faqat to'lovdan keyin"],
+        correctIndex: 0,
+      },
+      {
+        question: "Mukofot qanday beriladi?",
+        options: ["USDT stablecoin", "Faqat badge", "Hech narsa", "Faqat sertifikat"],
+        correctIndex: 0,
+      },
+      { question: "Keyingi mavzu?", options: ["Blokcheyn", "Faqat o'yin", "Chiqish", "Hech narsa"], correctIndex: 0 },
+    ],
+    game: {
+      type: "chest",
+      title: "Xazina sandig'ini oching!",
+      statements: [{ text: "Sandiqchani bosing!", correct: true }],
+    },
+  },
+
   p5: {
     guide: [
       {

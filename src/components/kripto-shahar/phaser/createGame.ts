@@ -1,6 +1,5 @@
 import * as Phaser from "phaser";
 import { WorldScene } from "./WorldScene";
-import { MAP_WIDTH, MAP_HEIGHT, TILE_SIZE } from "@/lib/kripto-shahar/buildings";
 
 export function createKriptoShaharGame(parent: HTMLElement): Phaser.Game {
   const w = Math.max(parent.clientWidth, 320);
@@ -32,6 +31,3 @@ export function createKriptoShaharGame(parent: HTMLElement): Phaser.Game {
     render: { antialias: true, roundPixels: false },
   });
 }
-
-export const WORLD_PIXEL_W = MAP_WIDTH * TILE_SIZE;
-export const WORLD_PIXEL_H = MAP_HEIGHT * TILE_SIZE;

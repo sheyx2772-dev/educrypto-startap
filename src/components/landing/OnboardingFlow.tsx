@@ -1,7 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import type { ComponentType } from "react";
 import { onboardingSteps } from "@/lib/design-tokens";
 import { PhoneIcon, KycIcon, VideoLessonIcon, TaskIcon, MarketIcon } from "@/components/icons/FeatureIcons";
+import { useTranslation } from "@/i18n/provider";
 
 const stepIconMap: Record<string, ComponentType<{ size?: number }>> = {
   user: PhoneIcon,
@@ -12,12 +15,14 @@ const stepIconMap: Record<string, ComponentType<{ size?: number }>> = {
 };
 
 export function OnboardingFlow() {
+  const { t } = useTranslation();
+
   return (
     <section id="onboarding" className="py-20 px-4 bg-white">
       <div className="max-w-5xl mx-auto text-center">
-        <h2 className="text-3xl font-extrabold mb-3">Foydalanuvchi yo&apos;li</h2>
+        <h2 className="text-3xl font-extrabold mb-3">{t("landing.userJourney")}</h2>
         <p className="text-gray-500 mb-12 font-medium">
-          Ro&apos;yxatdan o&apos;tishdan mukofotgacha — 5 ta oddiy qadam
+          {t("landing.userJourneyDesc")}
         </p>
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 mb-10">
@@ -42,7 +47,7 @@ export function OnboardingFlow() {
         </div>
 
         <Link href="/onboarding" className="btn-3d-primary inline-block !text-base">
-          Hoziroq boshlash
+          {t("landing.startNow")}
         </Link>
       </div>
     </section>

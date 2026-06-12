@@ -4,8 +4,7 @@ import { create } from "zustand";
 import { verifyTransaction } from "./calculation";
 import { createInitialRates, getRate, tickRates } from "./market";
 import { MAX_FAILED_ATTEMPTS, STALL_PRODUCTS, WIN_PURCHASE_COUNT } from "./products";
-import type { MarketRate, PurchasedItem, StallProduct } from "./types";
-import type { GamePhase } from "./types";
+import type { CryptoAsset, GamePhase, MarketRate, PurchasedItem, StallProduct } from "./types";
 
 interface SotibOlStore {
   phase: GamePhase;
@@ -24,7 +23,7 @@ interface SotibOlStore {
   startGame: () => void;
   tickMarket: () => void;
   selectProduct: (p: StallProduct | null) => void;
-  submitPayment: (amount: number) => boolean;
+  submitPayment: (amount: number, asset: CryptoAsset) => boolean;
   dismissModal: () => void;
   resetGame: () => void;
   markPathComplete: () => void;
@@ -74,18 +73,18 @@ export const useSotibOlStore = create<SotibOlStore>((set, get) => ({
     });
   },
 
-  submitPayment: (amount) => {
+  submitPayment: (amount, asset) => {
     const { selectedProduct, rates, purchased, purchasedIds, failedAttempts } = get();
     if (!selectedProduct) return false;
 
-    const rate = getRate(rates, selectedProduct.payWith);
-    const result = verifyTransaction(amount, selectedProduct, rate);
+    const rate = getRate(rates, asset);
+    const result = verifyTransaction(amount, selectedProduct, rate, asset);
 
     if (result.success) {
       const item: PurchasedItem = {
         productId: selectedProduct.id,
         paidCrypto: amount,
-        asset: selectedProduct.payWith,
+        asset,
         rateAtPurchase: rate,
       };
       const newIds = new Set(purchasedIds);

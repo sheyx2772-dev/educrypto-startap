@@ -220,10 +220,6 @@ export function getRisk(id: string): RiskChallenge {
   return RISK_CHALLENGES[idx % RISK_CHALLENGES.length];
 }
 
-export function drawRandomCard(): GameCard {
-  return GAME_CARDS[Math.floor(Math.random() * GAME_CARDS.length)];
-}
-
 export function getCardByType(type: import("./types").CardType): GameCard {
   const match = GAME_CARDS.find((c) => c.type === type);
   return match ?? GAME_CARDS[0];

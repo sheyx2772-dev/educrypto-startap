@@ -1,6 +1,6 @@
 import Matter from "matter-js";
 import { PLACEABLE_PLANETS } from "./planets";
-import type { ArenaConfig, OrbitRing, OrbitRingId, PadBounds, PlanetDef, PlanetOrbit } from "./types";
+import type { ArenaConfig, OrbitRing, PadBounds, PlanetDef, PlanetOrbit } from "./types";
 
 export const ARENA_BASE_W = 1100;
 export const ARENA_BASE_H = 620;
@@ -120,43 +120,6 @@ export function computeArenaLayout(width: number, height: number): ArenaLayout {
     planetOrbits,
     uniformScale: maxRadius / 188,
   };
-}
-
-export interface GravityResult {
-  fx: number;
-  fy: number;
-  orbitalSpeed: number;
-  distance: number;
-}
-
-export function calculateGravityPull(
-  body: Matter.Body,
-  center: { x: number; y: number },
-  gravityStrength: number,
-  volatility: number
-): GravityResult {
-  const dx = center.x - body.position.x;
-  const dy = center.y - body.position.y;
-  const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-  const massFactor = body.mass / 50;
-  const strength = gravityStrength * massFactor * (1 + volatility * 0.4);
-  const fx = (dx / dist) * strength;
-  const fy = (dy / dist) * strength;
-  const orbitalSpeed = Math.sqrt(strength / dist) * 0.12;
-  return { fx, fy, orbitalSpeed, distance: dist };
-}
-
-export function getRingAtPosition(
-  x: number,
-  y: number,
-  center: { x: number; y: number },
-  rings: OrbitRing[]
-): OrbitRingId | null {
-  const dist = Math.hypot(x - center.x, y - center.y);
-  for (const ring of rings) {
-    if (Math.abs(dist - ring.radius) < ring.tolerance) return ring.id;
-  }
-  return null;
 }
 
 /** Qaysi sayyora orbitasiga yaqin — snap uchun */
@@ -333,17 +296,4 @@ export function createArenaBodies(arena: ArenaConfig, sunRadius: number) {
   });
 
   return { walls, sun, blackHoleBody };
-}
-
-/** @deprecated computeArenaLayout ishlating */
-export function getDefaultArena(width: number, height: number): ArenaConfig {
-  const layout = computeArenaLayout(width, height);
-  return {
-    width: layout.width,
-    height: layout.height,
-    center: layout.center,
-    blackHole: layout.blackHole,
-    padOrigin: layout.padOrigin,
-    pad: layout.pad,
-  };
 }

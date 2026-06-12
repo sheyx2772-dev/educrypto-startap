@@ -254,6 +254,9 @@ export function TangaLab({ title, onComplete, allowReplay = false }: Props) {
             {burned.size > 0 && (
               <span className="text-[10px] text-red-400 font-bold">🔥 {burned.size} yondi</span>
             )}
+            {mistakes > 0 && (
+              <span className="text-[10px] text-orange-400 font-bold">✗ {mistakes} xato</span>
+            )}
           </div>
         </div>
 

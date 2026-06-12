@@ -48,8 +48,3 @@ export function getRate(rates: MarketRate[], asset: CryptoAsset): number {
 export function formatUsd(n: number): string {
   return n >= 1000 ? `$${n.toLocaleString("en-US", { maximumFractionDigits: 0 })}` : `$${n.toFixed(2)}`;
 }
-
-export function formatCrypto(n: number, asset: CryptoAsset): string {
-  const d = ASSET_META[asset].decimals;
-  return `${n.toFixed(d)} ${ASSET_META[asset].symbol}`;
-}

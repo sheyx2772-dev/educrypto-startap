@@ -10,13 +10,19 @@ import { resetProgress, STARTER_COINS } from "@/lib/progress";
 import { getLeaderboard, calcXp } from "@/lib/leaderboard";
 import { NavProfileIcon, CoinIcon } from "@/components/icons/NavIcons";
 import { InviteIcon, TrophyIcon } from "@/components/icons/FeatureIcons";
-import { certificateMeta } from "@/lib/pathContent";
+import { NappCertificate } from "@/components/path/NappCertificate";
+import { useTranslation } from "@/i18n/provider";
+import { getCertMetaFromMessages } from "@/i18n/localize";
+import type { CertKey } from "@/lib/certificateHtml";
 
 export default function ProfilePage() {
+  const { t, messages } = useTranslation();
+  const certMeta = getCertMetaFromMessages(messages);
   const { progress, refresh, shareInvite, inviteToStart, updateUsername } = useProgress();
   const [copied, setCopied] = useState(false);
   const [editingName, setEditingName] = useState(false);
   const [name, setName] = useState(progress.username);
+  const [viewCert, setViewCert] = useState<CertKey | null>(null);
 
   const passedCount = Object.values(progress.lessons).filter((l) => l.quizPassed).length;
   const xp = calcXp(progress.coins, passedCount);
@@ -63,7 +69,7 @@ export default function ProfilePage() {
                 {progress.username}
               </h1>
             )}
-            <p className="text-duo-yellow text-sm font-bold">#{myRank} reyting · {xp} XP</p>
+            <p className="text-duo-yellow text-sm font-bold">{t("profile.rankOf", { rank: myRank })} · {xp} XP</p>
             <div className="flex items-center gap-1 mt-1">
               <CoinIcon size={16} />
               <span className="font-extrabold text-accent">{progress.coins} USDT</span>
@@ -77,9 +83,9 @@ export default function ProfilePage() {
 
         <div className="grid grid-cols-3 gap-3 mt-5">
           {[
-            { val: progress.coins, label: "USDT" },
-            { val: passedCount, label: "Dars" },
-            { val: progress.invitesSent, label: "Taklif" },
+            { val: progress.coins, label: t("profile.stats.coins") },
+            { val: passedCount, label: t("profile.stats.lessons") },
+            { val: progress.invitesSent, label: t("profile.invites") },
           ].map((s) => (
             <div key={s.label} className="bg-white/10 rounded-xl p-3 text-center">
               <p className="text-xl font-extrabold text-duo-yellow">{s.val}</p>
@@ -92,12 +98,12 @@ export default function ProfilePage() {
       {/* NAPP Certificates */}
       <div className="mb-6">
         <h2 className="font-extrabold text-secondary mb-3 flex items-center gap-2 text-sm">
-          <TrophyIcon size={22} /> NAPP sertifikatlar
+          <TrophyIcon size={22} /> {t("cert.certificates")}
         </h2>
         <div className="space-y-2">
           {(["beginner", "advanced", "ai"] as const).map((key) => {
             const earned = progress.certificates?.[key];
-            const meta = certificateMeta[key];
+            const meta = certMeta[key];
             return (
               <div
                 key={key}
@@ -108,12 +114,16 @@ export default function ProfilePage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-bold text-sm text-secondary truncate">{meta.title}</p>
-                  <p className="text-[10px] text-gray-400">{earned ? meta.level : "Bosqichga yetganda ochiladi"}</p>
+                  <p className="text-[10px] text-gray-400">{earned ? meta.level : t("cert.unlocked")}</p>
                 </div>
                 {earned && (
-                  <Link href="/dashboard" className="text-xs font-extrabold text-accent shrink-0">
-                    Ko&apos;rish
-                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => setViewCert(key)}
+                    className="text-xs font-extrabold text-accent shrink-0 hover:underline"
+                  >
+                    {t("cert.view")}
+                  </button>
                 )}
               </div>
             );
@@ -121,24 +131,35 @@ export default function ProfilePage() {
         </div>
       </div>
 
+      {viewCert && (
+        <NappCertificate
+          certKey={viewCert}
+          username={progress.username}
+          inviteCode={progress.inviteCode}
+          awardDateIso={progress.certificateDates?.[viewCert]}
+          show
+          onClose={() => setViewCert(null)}
+        />
+      )}
+
       {/* Invite */}
       <div className="card-neon p-5 mb-6 border-2 border-accent/30">
         <div className="flex items-center gap-3 mb-3">
           <InviteIcon size={40} />
           <div>
-            <h2 className="font-extrabold text-secondary text-sm">Do&apos;stlarni taklif qiling</h2>
-            <p className="text-xs text-gray-400">Har bir do&apos;st uchun +{STARTER_COINS} USDT mukofot</p>
+            <h2 className="font-extrabold text-secondary text-sm">{t("profile.inviteTitle")}</h2>
+            <p className="text-xs text-gray-400">{t("profile.inviteReward", { coins: STARTER_COINS })}</p>
           </div>
         </div>
         <div className="bg-gray-50 rounded-xl p-3 mb-3 flex items-center justify-between gap-2">
           <code className="text-xs font-bold text-secondary truncate">{progress.inviteCode}</code>
           <button onClick={handleCopy} className="text-xs font-extrabold text-accent shrink-0 px-3 py-1.5 bg-accent/10 rounded-lg">
-            {copied ? "✓" : "Nusxalash"}
+            {copied ? "✓" : t("common.copy")}
           </button>
         </div>
         {!progress.hasStarted && (
           <button onClick={inviteToStart} className="btn-3d-accent w-full !text-xs !py-2.5">
-            Do&apos;st qo&apos;shildi — {STARTER_COINS} USDT olish
+            {t("profile.inviteFriendReward", { coins: STARTER_COINS })}
           </button>
         )}
       </div>
@@ -146,7 +167,7 @@ export default function ProfilePage() {
       {/* Leaderboard */}
       <div className="mb-6">
         <h2 className="font-extrabold text-secondary mb-3 flex items-center gap-2">
-          <TrophyIcon size={24} /> Reyting
+          <TrophyIcon size={24} /> {t("profile.leaderboard")}
         </h2>
         <div className="space-y-2">
           {leaderboard.slice(0, 8).map((user, i) => (
@@ -165,9 +186,9 @@ export default function ProfilePage() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className={`font-bold text-sm truncate ${user.isCurrentUser ? "text-accent" : "text-secondary"}`}>
-                  {user.name} {user.isCurrentUser && "(Siz)"}
+                  {user.name} {user.isCurrentUser && `(${t("common.you")})`}
                 </p>
-                <p className="text-[10px] text-gray-400">{user.lessonsPassed} dars · {user.xp} XP</p>
+                <p className="text-[10px] text-gray-400">{t("profile.lessonXp", { lessons: user.lessonsPassed, xp: user.xp })}</p>
               </div>
               <div className="text-right shrink-0">
                 <p className="font-extrabold text-accent text-sm">{user.coins}</p>
@@ -181,10 +202,10 @@ export default function ProfilePage() {
       {/* Status cards */}
       <div className="space-y-2 mb-6">
         {[
-          { label: "KYC holati", value: progress.hasStarted ? "Tasdiqlangan" : "Kutilmoqda", ok: progress.hasStarted },
-          { label: "OneID", value: progress.hasStarted ? "Ulangan" : "—", ok: progress.hasStarted },
-          { label: "NAPP", value: "Mos keladi", ok: true },
-          { label: "To'lov", value: progress.paymentMethod?.toUpperCase() ?? "—", ok: !!progress.paymentMethod },
+          { label: t("profile.kyc"), value: progress.hasStarted ? t("profile.kycDone") : t("profile.kycPending"), ok: progress.hasStarted },
+          { label: t("profile.oneId"), value: progress.hasStarted ? t("profile.oneIdConnected") : "—", ok: progress.hasStarted },
+          { label: "NAPP", value: t("profile.nappOk"), ok: true },
+          { label: t("profile.payment"), value: progress.paymentMethod?.toUpperCase() ?? "—", ok: !!progress.paymentMethod },
         ].map((item) => (
           <div key={item.label} className="card-neon p-3 flex justify-between items-center">
             <span className="font-semibold text-sm">{item.label}</span>
@@ -196,16 +217,16 @@ export default function ProfilePage() {
       <div className="card-neon p-4 flex items-center gap-3">
         <Image src="/assets/mascot/idle.png" alt="" width={48} height={48} className="rounded-xl neon-avatar" unoptimized />
         <div>
-          <p className="font-bold text-sm">Shlyapa-Coin yordamchisi</p>
-          <p className="text-xs text-gray-400">{lessons.length} darslik · {passedCount} tugatildi</p>
+          <p className="font-bold text-sm">{t("profile.mascotName")}</p>
+          <p className="text-xs text-gray-400">{t("profile.mascotLessons", { total: lessons.length, passed: passedCount })}</p>
         </div>
       </div>
 
       <button onClick={() => { resetProgress(); refresh(); }} className="mt-6 w-full text-xs text-gray-400 hover:text-warning">
-        Progressni qayta boshlash
+        {t("profile.resetProgress")}
       </button>
       <Link href="/" className="block text-center mt-3 text-sm text-gray-400 hover:text-secondary">
-        ← Marketing sahifasiga
+        {t("profile.backMarketing")}
       </Link>
     </div>
   );

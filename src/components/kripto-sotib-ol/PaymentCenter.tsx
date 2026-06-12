@@ -2,7 +2,7 @@
 
 import { forwardRef } from "react";
 import Image from "next/image";
-import { ASSET_META, formatUsd } from "@/lib/kripto-sotib-ol/market";
+import { formatUsd } from "@/lib/kripto-sotib-ol/market";
 import type { StallProduct } from "@/lib/kripto-sotib-ol/types";
 
 const LOGO = "/game/kripto-sotib-ol/savatcha-logo.png";
@@ -50,7 +50,7 @@ export const PaymentCenter = forwardRef<HTMLDivElement, Props>(
               {selected.gasUsd ? ` + $${selected.gasUsd} gas` : ""}
             </p>
             <p className="kso-payment-hint">
-              {ASSET_META[selected.payWith].symbol} da hisoblang
+              Kassada kripto tanlang va hisoblang
             </p>
             <button type="button" className="gplay-btn gplay-btn-sm mt-3" onClick={onOpenCheckout}>
               Kassani ochish

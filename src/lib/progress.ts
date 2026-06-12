@@ -18,6 +18,7 @@ export interface UserProgress {
   lessons: Record<string, LessonProgress>;
   pathCompleted: Record<string, boolean>;
   certificates: Record<string, boolean>;
+  certificateDates: Record<string, string>;
   hasStarted: boolean;
   username: string;
   inviteCode: string;
@@ -48,6 +49,7 @@ function createInitialProgress(): UserProgress {
     lessons: {},
     pathCompleted: {},
     certificates: {},
+    certificateDates: {},
     hasStarted: false,
     username: "Crypto o'quvchi",
     inviteCode: generateInviteCode(),
@@ -68,6 +70,7 @@ function migrateProgress(parsed: Partial<UserProgress>): UserProgress {
     lessons: { ...base.lessons, ...parsed.lessons },
     pathCompleted: parsed.pathCompleted ?? {},
     certificates: parsed.certificates ?? {},
+    certificateDates: parsed.certificateDates ?? {},
     hasStarted,
     username: parsed.username ?? base.username,
     inviteCode: parsed.inviteCode ?? base.inviteCode,
@@ -95,7 +98,7 @@ export function getPathNodeStatus(progress: UserProgress, nodeId: string): PathN
   return "locked";
 }
 
-export function isPathNodeUnlocked(progress: UserProgress, nodeId: string): boolean {
+function isPathNodeUnlocked(progress: UserProgress, nodeId: string): boolean {
   return getPathNodeStatus(progress, nodeId) !== "locked";
 }
 
@@ -106,16 +109,16 @@ export function completePathNode(progress: UserProgress, node: PathNode): UserPr
     coins: progress.coins + node.reward,
     pathCompleted: { ...progress.pathCompleted, [node.id]: true },
     certificates: { ...progress.certificates },
+    certificateDates: { ...progress.certificateDates },
   };
   if (node.certificateKey) {
     updated.certificates[node.certificateKey] = true;
+    if (!updated.certificateDates[node.certificateKey]) {
+      updated.certificateDates[node.certificateKey] = new Date().toISOString();
+    }
   }
   saveProgress(updated);
   return updated;
-}
-
-export function getActivePathNode(progress: UserProgress): PathNode | undefined {
-  return pathNodes.find((n) => getPathNodeStatus(progress, n.id) === "active");
 }
 
 export function getPathProgressPercent(progress: UserProgress): number {

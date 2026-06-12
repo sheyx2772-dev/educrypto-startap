@@ -5,8 +5,10 @@ import { useState } from "react";
 import { useProgress } from "@/context/ProgressContext";
 import { products } from "@/lib/products";
 import { CoinIcon } from "@/components/icons/NavIcons";
+import { useTranslation } from "@/i18n/provider";
 
 export default function MarketplacePage() {
+  const { t } = useTranslation();
   const { progress } = useProgress();
   const [selected, setSelected] = useState<number | null>(null);
   const selectedProduct = products.find((p) => p.id === selected);
@@ -15,8 +17,8 @@ export default function MarketplacePage() {
     <div className="px-4 py-6">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-extrabold">Do&apos;kon</h1>
-          <p className="text-gray-500 text-sm">{products.length} ta mahsulot · USDT stablecoin</p>
+          <h1 className="text-2xl font-extrabold">{t("marketplace.title")}</h1>
+          <p className="text-gray-500 text-sm">{t("marketplace.productCount", { n: products.length })}</p>
         </div>
         <div className="coin-badge-neon flex items-center gap-1.5 px-3 py-2 rounded-full">
           <CoinIcon size={18} />
@@ -52,7 +54,7 @@ export default function MarketplacePage() {
                   onClick={() => canBuy && setSelected(item.id)}
                   className="btn-3d-primary !py-1.5 !px-3 !text-[10px] w-full disabled:opacity-40"
                 >
-                  {canBuy ? "Sotib olish" : "Yetarli emas"}
+                  {canBuy ? t("marketplace.buy") : t("marketplace.notEnough")}
                 </button>
               </div>
             </div>
@@ -69,7 +71,7 @@ export default function MarketplacePage() {
             <div>
               <h3 className="font-extrabold text-secondary">{selectedProduct.name}</h3>
               <p className="text-accent font-bold">{selectedProduct.price} USDT</p>
-              <p className="text-xs text-gray-500 mt-1">Click yoki Payme orqali yetkazib berish</p>
+              <p className="text-xs text-gray-500 mt-1">{t("marketplace.delivery")}</p>
             </div>
           </div>
           <div className="flex gap-2 mt-4">
@@ -78,7 +80,7 @@ export default function MarketplacePage() {
             ))}
           </div>
           <button onClick={() => setSelected(null)} className="mt-3 text-xs text-gray-400 hover:text-secondary w-full text-center">
-            Yopish
+            {t("common.close")}
           </button>
         </div>
       )}

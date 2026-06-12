@@ -39,17 +39,6 @@ export function NavShopIcon({ active = false, size = 28 }: IconProps) {
   );
 }
 
-export function NavLabsIcon({ active = false, size = 28 }: IconProps) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 32 32" fill="none" className="transition-all duration-300" style={{ filter: neonFilter(active) }}>
-      <rect x="4" y="8" width="24" height="18" rx="3" fill={active ? "#FFD700" : "#2C3E50"} stroke={active ? "#E6C200" : "#1a252f"} strokeWidth="1.5" />
-      <path d="M10 14H22M10 18H18" stroke={active ? "#2C3E50" : "#48C9A3"} strokeWidth="2" strokeLinecap="round" />
-      <circle cx="24" cy="6" r="5" fill="#7C3AED" stroke="#fff" strokeWidth="1" />
-      <path d="M22 6H26M24 4.5V7.5" stroke="#fff" strokeWidth="1.2" strokeLinecap="round" />
-    </svg>
-  );
-}
-
 export function NavProfileIcon({ active = false, size = 28 }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 32 32" fill="none" className="transition-all duration-300" style={{ filter: neonFilter(active) }}>

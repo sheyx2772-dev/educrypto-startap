@@ -267,13 +267,6 @@ export const LEVELS: GameLevel[] = [
   },
 ]
 
-// To'g'ri tartib: timestamp → prev_hash → transaction(lar) → merkle_root? → nonce → hash
-export const CORRECT_ORDER: Record<string, string[]> = {
-  b1: ['f1-1', 'f1-2', 'f1-3', 'f1-4', 'f1-5'],
-  b3: ['f3-1', 'f3-2', 'f3-3', 'f3-4', 'f3-5'],
-  b4: ['f4-4', 'f4-1', 'f4-2', 'f4-3', 'f4-5'],
-}
-
 export const FIELD_ORDER_LOGIC: Record<string, number> = {
   timestamp: 1,
   prev_hash: 2,
@@ -289,14 +282,4 @@ export function checkFieldOrder(fields: { type: string }[]): boolean {
     if (orders[i] > orders[i + 1]) return false
   }
   return true
-}
-
-export function generateHash(input: string): string {
-  let hash = 0
-  for (let i = 0; i < input.length; i++) {
-    const char = input.charCodeAt(i)
-    hash = (hash << 5) - hash + char
-    hash = hash & hash
-  }
-  return Math.abs(hash).toString(16).padStart(16, '0').slice(0, 16) + '...'
 }

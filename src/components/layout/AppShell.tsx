@@ -4,49 +4,55 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useProgress } from "@/context/ProgressContext";
+import { useTranslation } from "@/i18n/provider";
 import { NavHomeIcon, NavLessonsIcon, NavShopIcon, NavProfileIcon, CoinIcon } from "@/components/icons/NavIcons";
-
-const navItems = [
-  { href: "/dashboard", label: "Bosh", Icon: NavHomeIcon },
-  { href: "/lessons", label: "Darslik", Icon: NavLessonsIcon },
-  { href: "/marketplace", label: "Do'kon", Icon: NavShopIcon },
-  { href: "/profile", label: "Profil", Icon: NavProfileIcon },
-];
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { progress } = useProgress();
+  const { t } = useTranslation();
   const hideNav = pathname === "/onboarding" || pathname.startsWith("/games/");
 
+  const navItems = [
+    { href: "/dashboard", label: t("nav.home"), Icon: NavHomeIcon },
+    { href: "/lessons", label: t("nav.lessons"), Icon: NavLessonsIcon },
+    { href: "/marketplace", label: t("nav.shop"), Icon: NavShopIcon },
+    { href: "/profile", label: t("nav.profile"), Icon: NavProfileIcon },
+  ];
+
   const pageTitles: Record<string, string> = {
-    "/dashboard": "Crypto ko'prik yo'li",
-    "/lessons": "Video darsliklar",
-    "/marketplace": "Do'kon",
-    "/profile": "Profil",
-    "/onboarding": "Ro'yxatdan o'tish",
+    "/dashboard": t("pages.dashboard"),
+    "/lessons": t("pages.lessons"),
+    "/marketplace": t("pages.marketplace"),
+    "/profile": t("pages.profile"),
+    "/onboarding": t("pages.onboarding"),
   };
   const headerTitle =
     pageTitles[pathname] ??
-    (pathname.startsWith("/games/kripto-shahar") ? "Kripto Shahar" :
-     pathname.startsWith("/path") ? "Ko'prik yo'li" :
-     pathname.startsWith("/lessons") ? "Video darslik" : "EduCrypto");
+    (pathname.startsWith("/games/kripto-shahar") ? t("pages.kriptoShahar") :
+     pathname.startsWith("/path") ? t("pages.path") :
+     pathname.startsWith("/lessons") ? t("pages.lesson") : t("common.appName"));
 
   const isFullScreenGame = pathname.startsWith("/games/");
 
   return (
     <div className={`app-shell bg-app-bg flex flex-col shadow-2xl ${isFullScreenGame ? "app-shell--fullscreen" : ""}`}>
       {!isFullScreenGame && (
-        <header className="app-header-bar app-header-safe px-4 pb-3 flex items-center justify-between sticky top-0 z-30 shrink-0">
+        <header className="app-header-bar app-header-safe px-4 pb-3 flex items-center justify-between sticky top-0 z-30 shrink-0 gap-2">
           <div className="flex items-center gap-2 min-w-0">
             <Image src="/assets/mascot/icon.png" alt="EduCrypto" width={36} height={36} className="rounded-xl neon-avatar shrink-0" unoptimized />
             <span className="font-extrabold text-secondary text-sm truncate">{headerTitle}</span>
           </div>
-          {!hideNav && (
-            <div className="coin-badge-neon flex items-center gap-1.5 px-3 py-1.5 rounded-full font-extrabold text-sm shrink-0">
-              <CoinIcon size={18} />
-              <span className="text-secondary">{progress.coins}</span>
-            </div>
-          )}
+          <div className="flex items-center gap-2 shrink-0">
+            <LanguageSwitcher compact />
+            {!hideNav && (
+              <div className="coin-badge-neon flex items-center gap-1.5 px-3 py-1.5 rounded-full font-extrabold text-sm">
+                <CoinIcon size={18} />
+                <span className="text-secondary">{progress.coins}</span>
+              </div>
+            )}
+          </div>
         </header>
       )}
 
@@ -55,7 +61,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </main>
 
       {!hideNav && (
-        <nav className="app-bottom-nav" aria-label="Asosiy navigatsiya">
+        <nav className="app-bottom-nav" aria-label={t("nav.mainNav")}>
           <div className="app-bottom-nav-inner">
             {navItems.map((item) => {
               const isActive = pathname === item.href || pathname.startsWith(item.href + "/");

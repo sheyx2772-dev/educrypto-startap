@@ -1,16 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { VideoPlayer } from "./VideoPlayer";
 import { StudyGuide } from "./StudyGuide";
 import { LessonQuiz } from "./LessonQuiz";
 import { CoinCelebration } from "./CoinCelebration";
 import { useProgress } from "@/context/ProgressContext";
-import { getLessonGuide, getLessonQuiz } from "@/lib/lessonContent";
-import { lessons, levelTitles, type Lesson } from "@/lib/lessons";
+import { getLocalizedLessonGuide, getLocalizedLessonQuiz } from "@/i18n/content/lessonTemplates";
+import { getLocalizedLesson } from "@/i18n/content/lessons";
+import { lessons, type Lesson } from "@/lib/lessons";
 import { LockIcon } from "@/components/icons/NavIcons";
 import { StarterGate } from "@/components/onboarding/StarterGate";
+import { useTranslation } from "@/i18n/provider";
+import { getLevelTitle } from "@/i18n/localize";
 
 interface LessonFlowProps {
   lesson: Lesson;
@@ -70,7 +73,11 @@ function DonePanel({
   );
 }
 
-export function LessonFlow({ lesson }: LessonFlowProps) {
+export function LessonFlow({ lesson: rawLesson }: LessonFlowProps) {
+  const { locale, messages } = useTranslation();
+  const lesson = useMemo(() => getLocalizedLesson(rawLesson, locale), [rawLesson, locale]);
+  const guide = useMemo(() => getLocalizedLessonGuide(lesson, locale), [lesson, locale]);
+  const quiz = useMemo(() => getLocalizedLessonQuiz(lesson, locale), [lesson, locale]);
   const {
     progress,
     watchVideo,
@@ -139,9 +146,6 @@ export function LessonFlow({ lesson }: LessonFlowProps) {
     );
   }
 
-  const guide = getLessonGuide(lesson);
-  const quiz = getLessonQuiz(lesson);
-
   const handleVideoComplete = () => {
     if (!lp?.videoWatched) watchVideo(lesson.id);
     setStep("guide");
@@ -192,7 +196,7 @@ export function LessonFlow({ lesson }: LessonFlowProps) {
         <span className="text-xs font-extrabold bg-duo-yellow text-secondary px-3 py-1 rounded-full">
           #{lesson.order} / {lessons.length}
         </span>
-        <span className="text-xs font-bold text-gray-400">{levelTitles[lesson.level]}</span>
+        <span className="text-xs font-bold text-gray-400">{getLevelTitle(lesson.level, messages)}</span>
         {reviewMode && (
           <span className="text-[10px] font-bold text-accent bg-accent/10 px-2 py-0.5 rounded-full">
             Qayta ko&apos;rish

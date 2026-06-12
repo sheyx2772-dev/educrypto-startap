@@ -1,13 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import type { PathGame } from "@/lib/pathContent";
+import { GAME_CHEST_SIZE, getChestImage } from "@/lib/bridgeChests";
 import { PathInteractiveLab } from "./interactive/PathInteractiveLab";
+import { GiftChest, ChestSparkle } from "./GiftChest";
 
 interface PathMiniGameProps {
   game: PathGame;
   onComplete: () => void;
   allowReplay?: boolean;
+  chestNodeId?: string;
 }
 
 function ReplayPanel({ onReplay }: { onReplay: () => void }) {
@@ -22,7 +26,7 @@ function ReplayPanel({ onReplay }: { onReplay: () => void }) {
   );
 }
 
-export function PathMiniGame({ game, onComplete, allowReplay }: PathMiniGameProps) {
+export function PathMiniGame({ game, onComplete, allowReplay, chestNodeId }: PathMiniGameProps) {
   const [won, setWon] = useState(false);
   const [playKey, setPlayKey] = useState(0);
 
@@ -56,7 +60,16 @@ export function PathMiniGame({ game, onComplete, allowReplay }: PathMiniGameProp
     return <TrueFalseGame key={key} statements={game.statements} title={game.title} onComplete={finish} done={done} />;
   }
   if (game.type === "chest" && game.statements) {
-    return <ChestGame key={key} statements={game.statements} title={game.title} onComplete={finish} done={done} />;
+    return (
+      <ChestGame
+        key={key}
+        statements={game.statements}
+        title={game.title}
+        chestSrc={getChestImage(chestNodeId ?? "p9")}
+        onComplete={finish}
+        done={done}
+      />
+    );
   }
   if (game.type === "interactive" && game.interactiveId) {
     return (
@@ -247,37 +260,75 @@ function TrueFalseGame({ statements, title, onComplete, done }: { statements: { 
   );
 }
 
-function ChestGame({ statements, title, onComplete, done }: { statements: { text: string; correct: boolean }[]; title: string; onComplete: () => void; done: boolean }) {
-  const [opens, setOpens] = useState(0);
-  const progress = Math.round((opens / statements.length) * 100);
+function ChestGame({
+  statements,
+  title,
+  chestSrc,
+  onComplete,
+  done,
+}: {
+  statements: { text: string; correct: boolean }[];
+  title: string;
+  chestSrc: string;
+  onComplete: () => void;
+  done: boolean;
+}) {
+  const [phase, setPhase] = useState<"idle" | "sparkle" | "reveal">("idle");
 
   const handleOpen = () => {
-    const next = opens + 1;
-    setOpens(next);
-    if (next >= statements.length) onComplete();
+    if (phase !== "idle" || done) return;
+    setPhase("sparkle");
+    setTimeout(() => setPhase("reveal"), 500);
+    setTimeout(() => onComplete(), 1600);
   };
 
+  const hint = statements[0]?.text ?? "Sandiqni bosing!";
+
   return (
-    <div className="card-neon p-6 text-center">
+    <div className="card-neon p-6 text-center path-chest-game">
       <h3 className="font-extrabold text-secondary text-sm mb-4">{title}</h3>
       {done ? (
         <div>
-          <p className="text-5xl animate-bounce mb-2">🎁</p>
+          <motion.p
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="text-5xl mb-2"
+          >
+            🎁
+          </motion.p>
           <p className="text-accent font-extrabold">Sovg&apos;a ochildi!</p>
         </div>
       ) : (
         <>
-          <button
-            onClick={handleOpen}
-            className={`text-6xl mb-4 transition-transform active:scale-90 ${opens > 0 ? "animate-pulse" : ""}`}
-          >
-            {opens === 0 ? "🎁" : opens === 1 ? "🎀" : "✨"}
-          </button>
-          <p className="text-xs font-bold text-secondary mb-2">{statements[opens]?.text ?? "Oching!"}</p>
-          <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-            <div className="h-full bg-duo-yellow rounded-full transition-all" style={{ width: `${progress}%` }} />
+          <div className="path-chest-stage">
+            <ChestSparkle active={phase === "sparkle" || phase === "reveal"} />
+            <GiftChest
+              src={chestSrc}
+              size={GAME_CHEST_SIZE}
+              breathing={phase === "idle"}
+              onClick={handleOpen}
+              noBg
+            />
+            <AnimatePresence>
+              {phase === "reveal" && (
+                <motion.div
+                  className="path-chest-gift-pop"
+                  initial={{ opacity: 0, y: 24, scale: 0.4 }}
+                  animate={{ opacity: 1, y: -72, scale: 1 }}
+                  transition={{ duration: 0.7, ease: "easeOut" }}
+                >
+                  <span className="text-5xl">🎁</span>
+                  <span className="path-chest-gift-glow" />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-          <p className="text-[10px] text-gray-400 mt-2">{opens}/{statements.length} — sandiqni bosing</p>
+          <p className="text-xs font-bold text-secondary mb-1 mt-2">
+            {phase === "idle" ? hint : phase === "sparkle" ? "✨ Zar taralmoqda..." : "Sovg&apos;a chiqmoqda!"}
+          </p>
+          {phase === "idle" && (
+            <p className="text-[10px] text-gray-400">Sandiqchani bosing — ichidan sovg&apos;a chiqadi</p>
+          )}
         </>
       )}
     </div>

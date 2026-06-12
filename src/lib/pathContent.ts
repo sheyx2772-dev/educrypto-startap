@@ -1,6 +1,6 @@
 import type { PathNode } from "./curriculum";
 import { pathContentById } from "./pathContentData";
-import { pathVideoCourses, type PathVideoStep } from "./pathVideoSteps";
+import { fullVideoCourses } from "./pathVideoFullContent";
 
 export interface PathGuide {
   title: string;
@@ -11,6 +11,15 @@ export interface PathQuizQ {
   question: string;
   options: string[];
   correctIndex: number;
+}
+
+export interface EnrichedVideoStep {
+  step: number;
+  title: string;
+  videoId: string;
+  tip: string;
+  guide: PathGuide;
+  quiz: [PathQuizQ, PathQuizQ, PathQuizQ];
 }
 
 export type InteractiveLabId =
@@ -40,8 +49,8 @@ export interface PathNodeContent {
   guide: PathGuide[];
   quiz: PathQuizQ[];
   game: PathGame;
-  /** 6 bosqichli video kurs — guide o'rniga */
-  videoSteps?: PathVideoStep[];
+  /** 6 bosqichli video kurs — har video: qo'llanma + 3 test */
+  videoSteps?: EnrichedVideoStep[];
 }
 
 const fallbackContent = (node: PathNode): PathNodeContent => ({
@@ -74,26 +83,8 @@ export function getPathContent(node: PathNode): PathNodeContent {
   }
 
   const content = pathContentById[node.id] ?? fallbackContent(node);
-  if (!content.videoSteps && pathVideoCourses[node.id]) {
-    return { ...content, videoSteps: pathVideoCourses[node.id] };
+  if (!content.videoSteps && fullVideoCourses[node.id]) {
+    return { ...content, videoSteps: fullVideoCourses[node.id] };
   }
   return content;
 }
-
-export const certificateMeta = {
-  beginner: {
-    title: "NAPP Boshlang'ich sertifikat",
-    subtitle: "Crypto asoslari — 0 dan boshlang'ich daraja",
-    level: "Boshlang'ich",
-  },
-  advanced: {
-    title: "NAPP Ilg'or sertifikat",
-    subtitle: "Kripto treyding va tahlil — ilg'or daraja",
-    level: "Ilg'or",
-  },
-  ai: {
-    title: "NAPP AI va Kripto sertifikat",
-    subtitle: "Sun'iy intellekt va blockchain — master daraja",
-    level: "Master",
-  },
-} as const;

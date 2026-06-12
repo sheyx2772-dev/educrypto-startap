@@ -6,6 +6,7 @@ import { AnimatePresence } from "framer-motion";
 import { useSotibOlStore, WIN_PURCHASE_COUNT } from "@/lib/kripto-sotib-ol/store";
 import { STALL_PRODUCTS } from "@/lib/kripto-sotib-ol/products";
 import { ASSET_META } from "@/lib/kripto-sotib-ol/market";
+import type { CryptoAsset } from "@/lib/kripto-sotib-ol/types";
 import { LiveRatesFeed } from "./LiveRatesFeed";
 import { StallGrid } from "./StallGrid";
 import { PaymentCenter } from "./PaymentCenter";
@@ -57,8 +58,8 @@ export function KriptoSotibOlGame({ onComplete, allowReplay = false }: Props) {
     setShowModal(true);
   };
 
-  const handleSubmit = (amount: number) => {
-    const ok = store.submitPayment(amount);
+  const handleSubmit = (amount: number, asset: CryptoAsset) => {
+    const ok = store.submitPayment(amount, asset);
     if (ok) {
       setShowModal(false);
       store.dismissModal();

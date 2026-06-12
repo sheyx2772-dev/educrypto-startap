@@ -58,15 +58,3 @@ export interface LeaderboardEntry {
   accuracy: number;
   playedAt: number;
 }
-
-export interface RoundResult {
-  score: number;
-  correct: number;
-  wrong: number;
-  accuracy: number;
-  avgTimeSec: number;
-  comboMax: number;
-  basePoints: number;
-  speedBonus: number;
-  comboBonus: number;
-}

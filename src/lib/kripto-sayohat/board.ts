@@ -122,11 +122,3 @@ export function buildBoard(): BoardTile[] {
 }
 
 export const BOARD_TILES = buildBoard();
-
-/** Katak pozitsiyalari — kvadrat yo'l (monopoly uslubi) */
-export function getTilePosition(index: number): { x: number; y: number } {
-  if (index <= 9) return { x: index, y: 0 };
-  if (index <= 19) return { x: 9, y: index - 9 };
-  if (index <= 29) return { x: 29 - index, y: 10 };
-  return { x: 0, y: 39 - index };
-}

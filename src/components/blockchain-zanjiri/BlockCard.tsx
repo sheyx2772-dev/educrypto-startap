@@ -50,8 +50,12 @@ export default function BlockCard({ block, levelIndex, onBlockCorrect }: BlockCa
     const orderedFields = order.map((id) => block.fields.find((f) => f.id === id)!).filter(Boolean);
 
     if (checkFieldOrder(orderedFields)) {
+      setWrongAttempt(false);
       markBlockCorrect(block.id);
       onBlockCorrect(block.id);
+    } else {
+      setWrongAttempt(true);
+      setTimeout(() => setWrongAttempt(false), 400);
     }
   }, [canReorder, isCorrect, block, initialOrder, markBlockCorrect, onBlockCorrect]);
 

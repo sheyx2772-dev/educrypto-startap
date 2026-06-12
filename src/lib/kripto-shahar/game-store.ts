@@ -19,7 +19,6 @@ interface KriptoShaharStore {
   activeInterior: BuildingId | null;
   enterBlockedReason: string | null;
   chatMessages: ChatMessage[];
-  mockPlayers: never[];
   onlineCount: number;
   questProgress: Record<string, number>;
   showEnterPrompt: boolean;
@@ -39,7 +38,6 @@ interface KriptoShaharStore {
   addBits: (amount: number) => void;
   spendBits: (amount: number) => boolean;
   incrementQuest: (key: string) => void;
-  tickNpcs: () => void;
   markPathComplete: () => void;
 }
 
@@ -59,7 +57,6 @@ export const useKriptoShaharStore = create<KriptoShaharStore>((set, get) => ({
       timestamp: Date.now(),
     },
   ],
-  mockPlayers: [],
   onlineCount: 1,
   questProgress: {},
   showEnterPrompt: false,
@@ -170,8 +167,6 @@ export const useKriptoShaharStore = create<KriptoShaharStore>((set, get) => ({
     progress[key] = (progress[key] ?? 0) + 1;
     set({ questProgress: progress });
   },
-
-  tickNpcs: () => {},
 
   markPathComplete: () => set({ pathCompleteFired: true }),
 }));

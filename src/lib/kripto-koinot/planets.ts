@@ -1,10 +1,4 @@
-import type { OrbitRing, PlanetDef } from "./types";
-
-export const ORBIT_RINGS: OrbitRing[] = [
-  { id: 1, radius: 88, tolerance: 28, label: "Orbita 1", labelUz: "Fundamental bloklar" },
-  { id: 2, radius: 138, tolerance: 30, label: "Orbita 2", labelUz: "Moliyaviy tizimlar" },
-  { id: 3, radius: 188, tolerance: 32, label: "Orbita 3", labelUz: "Innovatsiyalar" },
-];
+import type { PlanetDef } from "./types";
 
 export const PLACEABLE_PLANETS: PlanetDef[] = [
   {

@@ -130,21 +130,8 @@ export function completeCourse(course: CourseKey) {
   savePlayerState({ completedCourses, badges });
 }
 
-export function setAvatar(type: AvatarType) {
-  savePlayerState({ avatarType: type });
-}
-
 export function setSelectedField(field: FieldId) {
   savePlayerState({ selectedField: field });
-}
-
-export function setUsername(name: string) {
-  savePlayerState({ username: name });
-}
-
-export function resetPlayerForDemo() {
-  if (typeof window === "undefined") return;
-  localStorage.removeItem(STORAGE_KEY);
 }
 
 /** Path progress dan kurslarni sinxronlash */

@@ -19,7 +19,8 @@ export function computeRequiredCrypto(
 export function verifyTransaction(
   userInput: number,
   product: StallProduct,
-  rate: number
+  rate: number,
+  asset: CryptoAsset
 ): TransactionResult {
   if (!Number.isFinite(userInput) || userInput <= 0) {
     return {
@@ -29,7 +30,7 @@ export function verifyTransaction(
   }
 
   const expected = computeRequiredCrypto(product.priceUsd, rate, product.gasUsd ?? 0);
-  const tolerance = TOLERANCE[product.payWith];
+  const tolerance = TOLERANCE[asset];
   const diff = Math.abs(userInput - expected);
 
   if (diff <= tolerance) {
@@ -40,11 +41,11 @@ export function verifyTransaction(
     };
   }
 
-  const sym = ASSET_META[product.payWith].symbol;
+  const sym = ASSET_META[asset].symbol;
   if (userInput < expected - tolerance) {
     return {
       success: false,
-      message: `Hisob yetarli emas! Kamida ${expected.toFixed(ASSET_META[product.payWith].decimals)} ${sym} kerak.`,
+      message: `Hisob yetarli emas! Kamida ${expected.toFixed(ASSET_META[asset].decimals)} ${sym} kerak.`,
       expected,
     };
   }

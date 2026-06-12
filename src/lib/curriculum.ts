@@ -14,15 +14,9 @@ export interface PathNode {
   parentLessonId?: string;
 }
 
-export const pathSections = [
-  "Asosiy yo'l",
-  "Rivojlanish",
-  "Iqtisodiyot",
-  "AI va kelajak",
-] as const;
-
 /** Demo taxtacha qo'yilmaydigan darslar (faqat o'quv bosqichi) */
 const SKIP_DEMO_PLANKS = new Set([
+  "p4g", // xazina mukofot sandig'i
   "p9",  // mukofot sandig'i
   "p11", // boshlang'ich sertifikat o'yini
   "p15", // mukofot sandig'i
@@ -110,11 +104,23 @@ const basePathNodes: Omit<PathNode, "order">[] = [
   { id: "p39", title: "AI sertifikat", type: "certificate", section: "AI va kelajak", description: "NAPP AI va kripto sertifikati.", reward: 50, certificateKey: "ai" },
 ];
 
+const XAZINA_GIFT: Omit<PathNode, "order"> = {
+  id: "p4g",
+  title: "Sovg'a",
+  type: "gift",
+  section: "Asosiy yo'l",
+  description: "Xazina mukofoti!",
+  reward: 12,
+};
+
 function buildPathWithDemoPlanks(): PathNode[] {
   const result: PathNode[] = [];
   let order = 1;
   for (const node of basePathNodes) {
     result.push({ ...node, order: order++ });
+    if (node.id === "p4") {
+      result.push({ ...XAZINA_GIFT, order: order++ });
+    }
     if (!SKIP_DEMO_PLANKS.has(node.id)) {
       result.push({
         id: `pd-${node.id}`,
@@ -134,15 +140,6 @@ function buildPathWithDemoPlanks(): PathNode[] {
 /** 39 ta dars + 27 ta demo = 66 ta taxtacha */
 export const pathNodes: PathNode[] = buildPathWithDemoPlanks();
 
-export const BASE_LESSON_COUNT = basePathNodes.length;
-
 export function getPathNode(id: string): PathNode | undefined {
   return pathNodes.find((n) => n.id === id);
-}
-
-export function getPathNodesBySection(): { section: string; nodes: PathNode[] }[] {
-  return pathSections.map((section) => ({
-    section,
-    nodes: pathNodes.filter((n) => n.section === section),
-  }));
 }

@@ -5,8 +5,10 @@ import { useProgress } from "@/context/ProgressContext";
 import { STARTER_COINS, STARTER_PRICE_SUM } from "@/lib/progress";
 import { PaymentIcon, InviteIcon, ClickPayIcon } from "@/components/icons/FeatureIcons";
 import { CoinIcon } from "@/components/icons/NavIcons";
+import { useTranslation } from "@/i18n/provider";
 
 export function StarterGate() {
+  const { t } = useTranslation();
   const { payToStart, inviteToStart, shareInvite, progress } = useProgress();
 
   const inviteLink = typeof window !== "undefined"
@@ -24,9 +26,9 @@ export function StarterGate() {
         <div className="w-16 h-16 rounded-2xl bg-duo-yellow/15 flex items-center justify-center mx-auto mb-4 neon-badge">
           <PaymentIcon size={44} />
         </div>
-        <h2 className="font-extrabold text-secondary text-xl mb-2">Darslikni boshlash</h2>
+        <h2 className="font-extrabold text-secondary text-xl mb-2">{t("starterGate.title")}</h2>
         <p className="text-sm text-gray-500 mb-4">
-          {STARTER_COINS} USDT ({STARTER_PRICE_SUM.toLocaleString()} so&apos;m) to&apos;lang yoki do&apos;stingizni taklif qiling
+          {t("starterGate.payAmount", { coins: STARTER_COINS, sum: STARTER_PRICE_SUM.toLocaleString() })}
         </p>
 
         <div className="coin-badge-neon flex items-center justify-center gap-2 py-2 rounded-xl mb-4">
@@ -48,18 +50,18 @@ export function StarterGate() {
         <div className="border-t border-gray-100 pt-4">
           <div className="flex items-center justify-center gap-2 mb-3">
             <InviteIcon size={28} />
-            <span className="text-xs font-bold text-accent">Do&apos;stni taklif qilish = +{STARTER_COINS} USDT</span>
+            <span className="text-xs font-bold text-accent">{t("starterGate.inviteRewardLine", { coins: STARTER_COINS })}</span>
           </div>
           <button onClick={handleCopy} className="btn-3d-accent w-full !text-xs !py-2 mb-2">
-            Havolani nusxalash
+            {t("starterGate.copyLink")}
           </button>
           <button onClick={inviteToStart} className="text-xs font-bold text-gray-500 hover:text-secondary">
-            Do&apos;st qo&apos;shildi →
+            {t("starterGate.friendAdded")}
           </button>
         </div>
 
         <Link href="/onboarding" className="block mt-4 text-xs text-gray-400 hover:text-secondary">
-          To&apos;liq ro&apos;yxatdan o&apos;tish →
+          {t("starterGate.fullOnboarding")}
         </Link>
       </div>
     </div>

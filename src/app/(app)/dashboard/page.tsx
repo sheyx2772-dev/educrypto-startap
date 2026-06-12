@@ -1,5 +1,5 @@
-import { LearningPath } from "@/components/dashboard/LearningPath";
+import { BridgePathMap } from "@/components/path/BridgePathMap";
 
 export default function DashboardPage() {
-  return <LearningPath />;
+  return <BridgePathMap />;
 }

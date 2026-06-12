@@ -75,17 +75,6 @@ export interface QuestDef {
   progressKey: string;
 }
 
-export interface MockPlayer {
-  id: string;
-  username: string;
-  avatarType: AvatarType;
-  x: number;
-  y: number;
-  targetX: number;
-  targetY: number;
-  zone: string;
-}
-
 export interface CityMilestone {
   id: string;
   name: string;
